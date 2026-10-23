@@ -1,0 +1,38 @@
+@using AUBE
+@using AUBE.Objects
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - AUBE</title>
+        <link rel="stylesheet" href="~/css/site.css" />
+    </head>
+    <body>
+        <header class="topbar">
+            <nav aria-label="Main navigation">
+                <div class="container">
+                    <a asp-area="" asp-page="/Index">AUBE</a>
+                    <ul>
+                        <li>
+                            <a asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Database">Database</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <div class="container">
+            <main role="main">
+                @RenderBody()
+            </main>
+        </div>
+
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
+</html>

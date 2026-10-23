@@ -1,0 +1,191 @@
+@page
+@using AUBE
+@using AUBE.Objects
+@namespace AUBE.Pages
+@model DatabaseModel
+
+@{
+    Layout = "/Pages/Shared/Layout.cshtml";
+    ViewData["Title"] = "Database";
+
+    var filteredUnits = Model.Units.Where(unit => unit.Ruleset == Model.SelectedRuleset).ToList();
+    var filteredWeapons = Model.Weapons.Where(weapon => weapon.Ruleset == Model.SelectedRuleset).ToList();
+}
+
+
+<!--                                                                                          PAGE INTRO -->
+<div class="card">
+    <h1>Database Check</h1>
+    <p class="text-success">
+        SQLite is connected. These records were read from the database.
+    </p>
+
+    <p>
+        @Model.Units.Count unit(s) · @Model.Weapons.Count weapon(s)
+    </p>
+
+    <form method="post" asp-page-handler="SelectedRuleset">
+        <label asp-for="SelectedRuleset">
+            Select Your Ruleset
+        </label>
+
+        <select asp-for="SelectedRuleset"
+                asp-items="Html.GetEnumSelectList<RulesetType>()"
+                onchange="this.form.submit()">
+            <option value="">Select a ruleset</option>
+        </select>
+    </form>
+
+    
+</div>
+
+
+<!--                                                                                          UNIT SECTION -->
+<section class="card" aria-labelledby="units-heading">
+
+    <h2 id="units-heading">Units</h2>
+
+    <div class="table">
+        <table id="unitsTable">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Health</th>
+                    <th scope="col">Weapon</th>
+                    <th scope="col">Armor</th>
+                    <th scope="col">Attack Skill</th>
+                    <th scope="col">Dodge Chance</th>
+                    <th scope="col">Block Chance</th>
+                    <th scope="col">Ability IDs</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (filteredUnits.Count == 0)
+                {
+                    <tr>
+                        <td colspan="9">No units found for this ruleset.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var unit in filteredUnits)
+                    {
+                        var abilityIds = unit.AbilityIds != null
+                            ? string.Join(", ", unit.AbilityIds)
+                            : "None";
+
+                        <tr data-id="@unit.Id"
+                            data-select-row="true"
+                            data-name="@unit.Name"
+                            data-type="@unit.Type"
+                            data-health="@unit.MaxHealth"
+                            data-weapon-id="@(unit.Weapon?.Id ?? 0)"
+                            data-armor="@unit.Armor"
+                            data-attack-skill="@unit.AttackSkill"
+                            data-dodge-chance="@unit.DodgeChance"
+                            data-block-chance="@unit.BlockChance"
+                            data-ability-ids="@(unit.AbilityIds != null ? string.Join(",", unit.AbilityIds) : string.Empty)">
+
+                            <td>@unit.Name</td>
+                            <td>@unit.Type</td>
+                            <td>@unit.MaxHealth</td>
+                            <td>@unit.Weapon?.Name</td>
+                            <td>@unit.Armor</td>
+                            <td>@unit.AttackSkill</td>
+                            <td>@unit.DodgeChance</td>
+                            <td>@unit.BlockChance</td>
+                            <td>@abilityIds</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="button-row">
+        <button type="button" id="addUnitButton" class="button-good">+ Add Unit</button>
+        <button type="button" id="updateUnitButton" class="button">Edit Unit</button>
+        <button type="button" id="deleteUnitButton" class="button-bad">Delete Unit</button>
+    </div>
+
+</section>
+
+<dialog id="unitDialog" data-reopen="@(Model.ShowUnitDialog ? "true" : "false")">
+    <partial name="_UnitForm" model="Model" />
+</dialog>
+
+<form method="post" asp-page-handler="DeleteUnit" id="deleteUnitForm" hidden>
+    <input type="hidden" asp-for="SelectedUnitId" />
+    <input type="hidden" asp-for="SelectedRuleset" />
+</form>
+
+
+<!--                                                                                          WEAPON SECTION -->
+<section class="card" aria-labelledby="weapons-heading">
+
+    <h2 id="weapons-heading">Weapons</h2>
+
+    <div class="table">
+        <table id="weaponsTable">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Damage</th>
+                    <th scope="col">Number Of Attacks</th>
+                    <th scope="col">Attack Modifier</th>
+                    <th scope="col">Hit Modifier</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (filteredWeapons.Count == 0)
+                {
+                    <tr>
+                        <td colspan="6">No weapons found for this ruleset.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var weapon in filteredWeapons)
+                    {
+                        <tr data-id="@weapon.Id"
+                            data-select-row="true"
+                            data-name="@weapon.Name"
+                            data-type="@weapon.Type"
+                            data-damage="@weapon.Damage"
+                            data-number-of-attacks="@weapon.NumberOfAttacks"
+                            data-attack-modifier="@weapon.AttackModifier"
+                            data-hit-modifier="@weapon.HitModifier">
+                            
+                            <td>@weapon.Name</td>
+                            <td>@weapon.Type</td>
+                            <td>@weapon.Damage</td>
+                            <td>@weapon.NumberOfAttacks</td>
+                            <td>@weapon.AttackModifier</td>
+                            <td>@weapon.HitModifier</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="button-row">
+        <button type="button" id="addWeaponButton" class="button-good">+ Add Weapon</button>
+        <button type="button" id="updateWeaponButton" class="button">Edit Weapon</button>
+        <button type="button" id="deleteWeaponButton" class="button-bad">Delete Weapon</button>
+    </div>
+
+</section>
+
+<dialog id="weaponDialog" data-reopen="@(Model.ShowWeaponDialog ? "true" : "false")">
+    <partial name="_WeaponForm" model="Model" />
+</dialog>
+
+<form method="post" asp-page-handler="DeleteWeapon" id="deleteWeaponForm" hidden>
+    <input type="hidden" asp-for="SelectedWeaponId" />
+    <input type="hidden" asp-for="SelectedRuleset" />
+</form>

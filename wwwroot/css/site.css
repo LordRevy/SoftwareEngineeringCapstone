@@ -1,0 +1,85 @@
+:root {
+    --page: #f1f5f2;
+    --surface: #fff;
+    --soft: #e8f0eb;
+    --line: #d3dfd7;
+    --ink: #20352b;
+    --muted: #607268;
+    --green: #176b57;
+    --red: #a84238;
+    --gold: #9a671f;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.5 "Aptos", "Segoe UI", sans-serif; }
+button, input, select { font: inherit; }
+a { color: var(--green); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, p { margin: 0 0 .7rem; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.05rem; }
+
+.container { width: min(1160px, calc(100% - 2rem)); margin: auto; }
+.topbar { background: #173d32; border-bottom: 3px solid #b47b32; color: white; }
+.topbar nav { padding: .65rem 0; }
+.topbar nav > .container, .topbar ul { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.topbar nav > .container > a { color: white; font-size: 1.3rem; font-weight: 800; }
+.topbar ul { margin: 0; padding: 0; list-style: none; }
+.topbar li a { display: block; padding: .4rem .65rem; color: #dce9e1; }
+.topbar li a:hover { color: white; text-decoration: none; }
+main { padding: 1.5rem 0 3rem; }
+
+.card, .combatant, .report, .report-result { padding: 1rem; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); }
+.card, .form, section:not(.card) { margin-bottom: 1rem; }
+.title, .attacker { color: var(--green); }
+.defender { color: var(--red); }
+.accent { color: var(--gold); font-weight: 700; }
+.note, .combatant > p, .form-grid p { color: var(--muted); font-size: .9rem; }
+.notice { padding: .75rem; border-left: 4px solid var(--gold); background: #f8f1e5; }
+.text-success { color: var(--green); }
+.text-danger, .field-error, .form-error { color: var(--red); }
+
+.form { display: grid; gap: 1rem; }
+.battle-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; }
+.combatant { min-width: 0; }
+#divider { color: var(--gold); }
+label { display: block; margin-bottom: .35rem; font-weight: 650; }
+input:not([type="hidden"]), select { width: 100%; min-height: 2.6rem; padding: .5rem .65rem; border: 1px solid #bdcdc2; border-radius: 4px; background: white; }
+input:focus, select:focus { outline: 2px solid #176b5733; border-color: var(--green); }
+.field-error, .form-error { display: block; font-size: .88rem; }
+.field-validation-valid, .validation-summary-valid { display: none; }
+.form > .card, .report-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.button-row { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+button, .button, .button-good, .button-goood, .button-primary, .button-bad { padding: .55rem .85rem; border: 1px solid var(--line); border-radius: 4px; background: white; color: var(--ink); cursor: pointer; }
+.button-good, .button-goood, .button-primary { border-color: var(--green); background: var(--green); color: white; }
+.button-bad { border-color: var(--red); background: var(--red); color: white; }
+button:hover { filter: brightness(.94); }
+button:disabled { opacity: .55; cursor: not-allowed; }
+
+.form-grid, .results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.form-grid p { margin: .2rem 0 .4rem; }
+.wide { grid-column: 1 / -1; }
+.table { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: white; }
+table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+th, td { padding: .65rem .75rem; border-bottom: 1px solid var(--line); text-align: left; }
+th { background: var(--soft); font-size: .82rem; text-transform: uppercase; }
+tbody tr:nth-child(even) { background: #f8faf8; }
+tr[data-select-row="true"], .report-row { cursor: pointer; }
+tr[data-select-row="true"]:hover, .report-row:hover { background: var(--soft); }
+.searchbar { width: min(100%, 24rem); margin-bottom: .75rem; }
+.report-heading { margin-bottom: 1rem; }
+.report-result, .report { min-width: 0; }
+
+dialog { width: min(760px, calc(100% - 2rem)); max-height: 85vh; overflow: auto; padding: 1rem; border: 1px solid var(--line); border-radius: 5px; color: var(--ink); }
+dialog::backdrop { background: #111f2488; }
+.entry-form { padding: .5rem; }
+.form-heading { margin-bottom: 1rem; }
+
+@media (max-width: 680px) {
+    .battle-grid, .results, .form-grid { grid-template-columns: 1fr; }
+    #divider { justify-self: center; }
+    .wide { grid-column: auto; }
+    .form > .card, .report-heading, .topbar nav > .container { align-items: stretch; flex-direction: column; }
+    .container { width: calc(100% - 1rem); }
+}

@@ -1,0 +1,37 @@
+@model AUBE.Objects.Report
+
+<h2>@Model.T1Name vs @Model.T2Name</h2>
+<h3>Report ID: @Model.Id</h3>
+<p class="accent">Iterations: @Model.Iterations.ToString("N0")</p>
+
+<div class="card">
+    <article class="report">
+        <h3 class="attacker">@Model.T1Name</h3>
+        <p>@(((double)Model.T1Wins / Model.Iterations).ToString("P1")) win rate</p>
+        <p>@(Model.T1Wins == 0 ? "0.0" : ((double)Model.T1TotalHealthLostOnWIn / Model.T1Wins).ToString("F1")) average health lost when winning</p>
+        <p>@(Model.T1Wins == 0 ? "0.0" : ((double)Model.T1TotalRoundsToWin / Model.T1Wins).ToString("F1")) average rounds to win</p>
+        <p>@(((double)Model.T1TotalAttacks / Model.Iterations).ToString("F1")) attacks per combat</p>
+        <p>@(((double)Model.T1TotalHits / Model.Iterations).ToString("F1")) normal hits per combat</p>
+        <p>@(((double)Model.T1TotalCriticalHits / Model.Iterations).ToString("F1")) critical hits per combat</p>
+        <p>@(((double)Model.T1TotalDamageDealt / Model.Iterations).ToString("F1")) health damage dealt per combat</p>
+        <p>@(((double)Model.T1TotalBlockedHits / Model.Iterations).ToString("F1")) hits blocked per combat</p>
+        <p>@(((double)Model.T1TotalDodgedAttacks / Model.Iterations).ToString("F1")) attacks dodged per combat</p>
+        <p>@(((double)Model.T1TotalArmorApplied / Model.Iterations).ToString("F1")) hits negated by armor per combat</p>
+    </article>
+
+    <article class="report">
+        <h3 class="defender">@Model.T2Name</h3>
+        <p>@(((double)Model.T2Wins / Model.Iterations).ToString("P1")) win rate</p>
+        <p>@(Model.T2Wins == 0 ? "0.0" : ((double)Model.T2TotalHealthLostOnWIn / Model.T2Wins).ToString("F1")) average health lost when winning</p>
+        <p>@(Model.T2Wins == 0 ? "0.0" : ((double)Model.T2TotalRoundsToWin / Model.T2Wins).ToString("F1")) average rounds to win</p>
+        <p>@(((double)Model.T2TotalAttacks / Model.Iterations).ToString("F1")) attacks per combat</p>
+        <p>@(((double)Model.T2TotalHits / Model.Iterations).ToString("F1")) normal hits per combat</p>
+        <p>@(((double)Model.T2TotalCriticalHits / Model.Iterations).ToString("F1")) critical hits per combat</p>
+        <p>@(((double)Model.T2TotalDamageDealt / Model.Iterations).ToString("F1")) health damage dealt per combat</p>
+        <p>@(((double)Model.T2TotalBlockedHits / Model.Iterations).ToString("F1")) hits blocked per combat</p>
+        <p>@(((double)Model.T2TotalDodgedAttacks / Model.Iterations).ToString("F1")) attacks dodged per combat</p>
+        <p>@(((double)Model.T2TotalArmorApplied / Model.Iterations).ToString("F1")) hits negated by armor per combat</p>
+    </article>
+</div>
+
+<p>Draws: @Model.Draws.ToString("N0")</p>

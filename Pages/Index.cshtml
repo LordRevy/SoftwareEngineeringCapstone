@@ -1,0 +1,161 @@
+﻿@page
+@using AUBE.Objects
+@namespace AUBE.Pages
+@model IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Pages/Shared/Layout.cshtml";
+    ViewData["Title"] = "Battle Simulator";
+}
+
+<!--                                                                                       HEADER -->
+<section class="card">
+    <div>
+        <p class="title">Automated Unit Balance Engine</p>
+        <h2>Scenario: Melee Combat</h2>
+        <p>Choose two units. Run the matchup repeatedly and compare the outcomes.</p>
+    </div>
+    <a asp-page="/Database">Manage units ↗</a>
+</section>
+
+<!--                                                                                       SELECT UNITS -->
+<form method="post" class="form">
+    <div class="battle-grid">
+        <div class="combatant">
+            <h2 class="attacker">Attacker</h2>
+            <label asp-for="FirstUnitId">First unit</label>
+            <select asp-for="FirstUnitId" required>
+                <option value="">Choose a unit</option>
+                @foreach (var unit in Model.Units)
+                {
+                    <option value="@unit.Id">@unit.Name · @unit.Type</option>
+                }
+            </select>
+            <p>Starts at full health</p>
+        </div>
+
+        <h1 id="divider">VS</h1>
+
+        <div class="combatant">
+            <h2 class="defender">Defender</h2>
+            <label asp-for="SecondUnitId">Second unit</label>
+            <select asp-for="SecondUnitId" required>
+                <option value="">Choose a unit</option>
+                @foreach (var unit in Model.Units)
+                {
+                    <option value="@unit.Id">@unit.Name · @unit.Type</option>
+                }
+            </select>
+            <p>Starts at full health</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <label asp-for="Iterations">Iterations</label>
+            <input asp-for="Iterations" min="1" max="10000" step="1" inputmode="numeric" />
+            <span asp-validation-for="Iterations" class="field-error"></span>
+        </div>
+        <button type="submit" class="button-goood" disabled="@(Model.Units.Count < 2)">
+            <span>▶</span> Run simulation
+        </button>
+    </div>
+
+    <p class="note">D6 resolution · Natural six is a critical hit · Dodge is checked per attack · Block is checked per hit · 100-turn limit</p>
+
+    @if (Model.Units.Count < 2)
+    {
+        <p class="notice">Add at least two D6 units in the <a asp-page="/Database">database</a> to run a matchup.</p>
+    }
+</form>
+
+@if (Model.Report is not null)
+{
+    <section>
+        <div class="report-heading">
+            <div>
+                <p class="accent">Simulation report</p>
+                <h2 class="title">@Model.Report.T1Name <span>vs</span> @Model.Report.T2Name</h2>
+            </div>
+            <p class="accent">@Model.Report.Iterations.ToString("N0") <span>iterations</span></p>
+        </div>
+
+        <div class="results">
+            <article class="report-result">
+                <h3>@Model.Report.T1Name</h3>
+                <p class="attacker">
+                    @Model.Report.T1Wins.ToString("N0") <span>wins</span>
+                </p>
+                <p class="attacker">
+                    @(((double)Model.Report.T1Wins / Model.Report.Iterations).ToString("P1")) win rate
+                </p>
+                <p class="attacker">
+                    @(((double)Model.Report.T1TotalDamageDealt / Model.Report.Iterations).ToString("F1")) average damage dealt per simulation
+                </p>
+            </article>
+
+            <article class="report-result">
+                <h3>@Model.Report.T2Name</h3>
+                <p class="defender">
+                    @Model.Report.T2Wins.ToString("N0") <span>wins</span>
+                </p>
+                <p class="defender">
+                    @(((double)Model.Report.T2Wins / Model.Report.Iterations).ToString("P1")) win rate
+                </p>
+                <p class="defender">
+                    @(((double)Model.Report.T2TotalDamageDealt / Model.Report.Iterations).ToString("F1")) average damage dealt per simulation
+                </p>
+            </article>
+        </div>
+
+        <div class="card">
+            <p><strong>@Model.Report.Draws.ToString("N0")</strong> draws</p>
+            <p><strong>@(((double)(Model.Report.T1TotalRoundsToWin + Model.Report.T2TotalRoundsToWin) / Model.Report.Iterations).ToString("F1"))</strong> combined winning rounds per simulation</p>
+        </div>
+    </section>
+}
+
+@if (Model.RecentReports.Count > 0)
+{
+    <section>
+        <h2>Simulation history</h2>
+        <div class="searchbar">
+            <input
+                type="search"
+                id="reportSearch"
+                placeholder="Enter a Unit Name"
+                aria-label="Search simulation history">
+        </div>
+
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Matchup</th>
+                        <th scope="col">Iterations</th>
+                        <th scope="col">Team 1 Win Rate</th>
+                        <th scope="col">Team 2 Win Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var report in Model.RecentReports)
+                    {
+                        <tr class="report-row" data-report-id="@report.Id" style="cursor: pointer;">
+                            <td>@report.CreatedAt.ToLocalTime().ToString("g")</td>
+                            <td>@report.T1Name vs @report.T2Name</td>
+                            <td>@report.Iterations.ToString("N0")</td>
+                            <td>@(((double)report.T1Wins / report.Iterations).ToString("P1"))</td>
+                            <td>@(((double)report.T2Wins / report.Iterations).ToString("P1"))</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <dialog id="reportDialog" class="dialog">
+            <div id="reportDialogContent"></div>
+            <button type="button" data-close-report>Close</button>
+        </dialog>
+    </section>
+}

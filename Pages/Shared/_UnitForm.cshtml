@@ -1,0 +1,135 @@
+@model AUBE.Pages.DatabaseModel
+@using AUBE.Objects
+
+<form method="post" class="entry-form">
+
+    <input type="hidden" asp-for="SelectedUnitId" />
+    <input type="hidden" asp-for="SelectedRuleset" />
+
+    <!-- Unit form fields -->
+
+    <h2 class="form-heading">Unit Form</h2>
+    <h3>Selected Ruleset: @(Model.SelectedRuleset?.ToString() ?? "None Selected...")</h3>
+
+    <div class="form-grid">
+
+        <div>
+            <label asp-for="UnitInput.Name">Name</label>
+            <p>What are they called?</p>
+            <input asp-for="UnitInput.Name" />
+            <span asp-validation-for="UnitInput.Name" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="UnitInput.Type">Type</label>
+            <p>What category do they belong to?</p>
+            <input asp-for="UnitInput.Type" />
+            <span asp-validation-for="UnitInput.Type" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="UnitInput.Health">Max Health</label>
+            <p>How much damage can they sustain?</p>
+            <input asp-for="UnitInput.Health"
+                    type="number"
+                    min="1"
+                    />
+            <span asp-validation-for="UnitInput.Health" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="UnitInput.WeaponId">Weapon</label>
+            <p>What are they wielding?</p>
+            <select asp-for="UnitInput.WeaponId">
+                <option value="0">Select a weapon</option>
+
+                @foreach (var weapon in Model.Weapons.Where(weapon => weapon.Ruleset == Model.SelectedRuleset))
+                {
+                    <option value="@weapon.Id">
+                        @weapon.Name (@weapon.Type)
+                    </option>
+                }
+            </select>
+            <span asp-validation-for="UnitInput.WeaponId" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="UnitInput.Armor">Armor</label>
+            <p>@Model.RuleExplanations.GetValueOrDefault("Armor")</p>
+            <input asp-for="UnitInput.Armor"
+                    type="number"
+                    min="0"
+                    />
+            <span asp-validation-for="UnitInput.Armor" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="UnitInput.AttackSkill">Attack Skill</label>
+            <p>@Model.RuleExplanations.GetValueOrDefault("AttackSkill")</p>
+            <input asp-for="UnitInput.AttackSkill"
+                    type="number"
+                    min="0"
+                    />
+            <span asp-validation-for="UnitInput.AttackSkill" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="UnitInput.DodgeChance">Dodge Chance</label>
+            <p>@Model.RuleExplanations.GetValueOrDefault("DodgeChance")</p>
+            <input asp-for="UnitInput.DodgeChance"
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="any"
+                    />
+            <span asp-validation-for="UnitInput.DodgeChance" class="field-error"></span>
+        </div>
+
+        <div class="wide">
+            <label asp-for="UnitInput.BlockChance">Block Chance</label>
+            <p>@Model.RuleExplanations.GetValueOrDefault("BlockChance")</p>
+            <input asp-for="UnitInput.BlockChance"
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="any"
+                    />
+            <span asp-validation-for="UnitInput.BlockChance" class="field-error"></span>
+        </div>
+
+        <div class="wide">
+            <label asp-for="UnitInput.AbilityIds">
+                Ability IDs (comma-separated)
+            </label>
+            <p>@Model.RuleExplanations.GetValueOrDefault("AbilityIds")</p>
+            <input asp-for="UnitInput.AbilityIds" />
+        </div>
+
+    </div>
+
+    <!-- Unit Buttons -->
+
+    <div class="button-row">
+        
+        <button type="submit"
+                asp-page-handler="AddUnit"
+            id="addUnitSubmit"
+            class="button-primary">
+            Add Unit
+        </button>
+
+        <button type="submit"
+                asp-page-handler="EditUnit"
+                id="editUnitSubmit"
+            class="button-primary"
+                hidden>
+            Save Changes
+        </button>
+
+        <button type="button"
+                data-close-dialog>
+            Cancel
+        </button>
+
+    </div>
+</form>

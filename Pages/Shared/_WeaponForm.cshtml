@@ -1,0 +1,107 @@
+@using AUBE
+@using AUBE.Objects
+@model AUBE.Pages.DatabaseModel
+
+<form method="post" class="entry-form">
+
+    <input type="hidden" asp-for="SelectedWeaponId" />
+    <input type="hidden" asp-for="SelectedRuleset" />
+
+    <!-- Weapon form fields -->
+
+    <h2 class="form-heading">Weapon Form</h2>
+
+    <div class="form-grid">
+
+        <div>
+            <label>Chosen Ruleset</label>
+            <p>@Model.SelectedRuleset</p>
+            <span asp-validation-for="SelectedRuleset" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="WeaponInput.Name">Name</label>
+            <p>What should it be called?</p>
+            <input asp-for="WeaponInput.Name" />
+            <span asp-validation-for="WeaponInput.Name" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="SelectedWeapon">Type</label>
+            <p>Is it Ranged or Melee?</p>
+            <select asp-for="SelectedWeapon">
+                <option value="">Select a weapon type</option>
+
+                @foreach (var weaponType in Enum.GetValues<WeaponType>())
+                {
+                    <option value="@weaponType">@weaponType</option>
+                }
+
+            </select>
+            <span asp-validation-for="SelectedWeapon" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="WeaponInput.Damage">Damage</label>
+            <p>@Model.RuleExplanations.GetValueOrDefault("Damage")</p>
+            <input asp-for="WeaponInput.Damage"
+                    type="number"
+                    min="0"
+                    />
+            <span asp-validation-for="WeaponInput.Damage" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="WeaponInput.NumberOfAttacks">Number Of Attacks</label>
+            <p>@Model.RuleExplanations.GetValueOrDefault("NumberOfAttacks")</p>
+            <input asp-for="WeaponInput.NumberOfAttacks"
+                    type="number"
+                    min="0"
+                    />
+            <span asp-validation-for="WeaponInput.NumberOfAttacks" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="WeaponInput.AttackModifier">Attack Modifier</label>
+            <p>@Model.RuleExplanations.GetValueOrDefault("AttackModifier")</p>
+            <input asp-for="WeaponInput.AttackModifier"
+                    type="number"
+                    />
+            <span asp-validation-for="WeaponInput.AttackModifier" class="field-error"></span>
+        </div>
+
+        <div>
+            <label asp-for="WeaponInput.HitModifier">Hit Modifier</label>
+            <p>@Model.RuleExplanations.GetValueOrDefault("HitModifier")</p>
+            <input asp-for="WeaponInput.HitModifier"
+                    type="number"
+                    />
+            <span asp-validation-for="WeaponInput.HitModifier" class="field-error"></span>
+        </div>
+
+    </div>
+
+    <!-- Weapon Buttons -->
+
+    <div class="button-row">
+        
+        <button type="submit"
+                asp-page-handler="AddWeapon"
+                id="addWeaponSubmit">
+            Add Weapon
+        </button>
+
+        <button type="submit"
+                asp-page-handler="EditWeapon"
+                id="editWeaponSubmit"
+                hidden>
+            Save Changes
+        </button>
+
+        <button type="button"
+                data-close-dialog>
+            Cancel
+        </button>
+
+    </div>
+</form>
