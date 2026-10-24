@@ -8,7 +8,7 @@
     <article class="report">
         <h3 class="attacker">@Model.T1Name</h3>
         <p>@(((double)Model.T1Wins / Model.Iterations).ToString("P1")) win rate</p>
-        <p>@(Model.T1Wins == 0 ? "0.0" : ((double)Model.T1TotalHealthLostOnWIn / Model.T1Wins).ToString("F1")) average health lost when winning</p>
+        <p>@(Model.T1Wins == 0 ? "0.0" : ((double)Model.T1TotalHealthLostOnWin / Model.T1Wins).ToString("F1")) average health lost when winning</p>
         <p>@(Model.T1Wins == 0 ? "0.0" : ((double)Model.T1TotalRoundsToWin / Model.T1Wins).ToString("F1")) average rounds to win</p>
         <p>@(((double)Model.T1TotalAttacks / Model.Iterations).ToString("F1")) attacks per combat</p>
         <p>@(((double)Model.T1TotalHits / Model.Iterations).ToString("F1")) normal hits per combat</p>
@@ -22,7 +22,7 @@
     <article class="report">
         <h3 class="defender">@Model.T2Name</h3>
         <p>@(((double)Model.T2Wins / Model.Iterations).ToString("P1")) win rate</p>
-        <p>@(Model.T2Wins == 0 ? "0.0" : ((double)Model.T2TotalHealthLostOnWIn / Model.T2Wins).ToString("F1")) average health lost when winning</p>
+        <p>@(Model.T2Wins == 0 ? "0.0" : ((double)Model.T2TotalHealthLostOnWin / Model.T2Wins).ToString("F1")) average health lost when winning</p>
         <p>@(Model.T2Wins == 0 ? "0.0" : ((double)Model.T2TotalRoundsToWin / Model.T2Wins).ToString("F1")) average rounds to win</p>
         <p>@(((double)Model.T2TotalAttacks / Model.Iterations).ToString("F1")) attacks per combat</p>
         <p>@(((double)Model.T2TotalHits / Model.Iterations).ToString("F1")) normal hits per combat</p>

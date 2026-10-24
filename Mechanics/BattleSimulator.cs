@@ -64,6 +64,59 @@ public sealed class BattleSimulator
             );
     }
 
+    // ------------------------------------------------------------------------ RECORD ATTACK DATA
+    private void AddAttackData(bool isTeam1, AttackResult data, Report report)
+    {
+        if (isTeam1)
+        {
+            report.T1TotalHits += data.NormalHits;
+            report.T1TotalCriticalHits += data.CriticalHits;
+            report.T1TotalAttacks += data.Attacks;
+            report.T1TotalDamageDealt += data.DamageDealt;
+        }
+        else
+        {
+            report.T2TotalHits += data.NormalHits;
+            report.T2TotalCriticalHits += data.CriticalHits;
+            report.T2TotalAttacks += data.Attacks;
+            report.T2TotalDamageDealt += data.DamageDealt;
+        }
+    }
+
+    // ----------------------------------------------------------------------- RECORD DEFENSE DATA
+    private void AddDefenseData(bool isTeam1, AttackResult data, Report report)
+    {
+        if (isTeam1)
+        {
+            report.T1TotalDodgedAttacks += data.DodgedAttacks;
+            report.T1TotalArmorApplied += data.ArmorApplied;
+            report.T1TotalBlockedHits += data.BlockedHits;
+        }
+        else
+        {
+            report.T2TotalDodgedAttacks += data.DodgedAttacks;
+            report.T2TotalArmorApplied += data.ArmorApplied;
+            report.T2TotalBlockedHits += data.BlockedHits;
+        }
+    }
+
+    // ----------------------------------------------------------------------- RECORD WIN DATA
+    private void RecordWinData(bool isTeam1, int turns, int healthLost, Report report)
+    {
+        if (isTeam1)
+        {
+            report.T1Wins++;
+            report.T1TotalRoundsToWin += turns;
+            report.T1TotalHealthLostOnWin += healthLost;
+        }
+        else
+        {
+            report.T2Wins++;
+            report.T2TotalRoundsToWin += turns;
+            report.T2TotalHealthLostOnWin += healthLost;
+        }
+    }
+
     // ===========================================================================================================
     //                                                                                           RUN SIMULATION
     // ===========================================================================================================
@@ -99,48 +152,34 @@ public sealed class BattleSimulator
 
                 //team1 Attacks
                 var attackData = ResolveCombat(team1, team2);
-
-                battleReport.T1TotalHits += attackData.NormalHits;
-                battleReport.T1TotalCriticalHits += attackData.CriticalHits;
-                battleReport.T1TotalAttacks += attackData.Attacks;
-                battleReport.T1TotalDamageDealt += attackData.DamageDealt;
-                battleReport.T2TotalDodgedAttacks += attackData.DodgedAttacks;
-                battleReport.T2TotalArmorApplied += attackData.ArmorApplied;
-                battleReport.T2TotalBlockedHits += attackData.BlockedHits;
+                AddAttackData(isTeam1: true, attackData, battleReport);
+                AddDefenseData(isTeam1: false, attackData, battleReport);
 
                 if (_ruleset.IsDefeated(team2))
                     break;
                 
                 //team2 Counterattacks
                 var counterattackData = ResolveCombat(team2, team1);
-
-                battleReport.T2TotalHits += counterattackData.NormalHits;
-                battleReport.T2TotalCriticalHits += counterattackData.CriticalHits;
-                battleReport.T2TotalAttacks += counterattackData.Attacks;
-                battleReport.T2TotalDamageDealt += counterattackData.DamageDealt;
-                battleReport.T1TotalDodgedAttacks += counterattackData.DodgedAttacks;
-                battleReport.T1TotalArmorApplied += counterattackData.ArmorApplied;
-                battleReport.T1TotalBlockedHits += counterattackData.BlockedHits;
+                AddAttackData(isTeam1: false, counterattackData, battleReport);
+                AddDefenseData(isTeam1: true, counterattackData, battleReport);
 
                 if (_ruleset.IsDefeated(team1))
                     break;
             }
 
-            if (_ruleset.IsDefeated(team1) && _ruleset.IsDefeated(team2))
+            if (_ruleset.IsDefeated(team1) && _ruleset.IsDefeated(team2) || turns >= MaxTurns)
             {
                 battleReport.Draws++;
             }
-            else if (_ruleset.IsDefeated(team1))
-            {
-                battleReport.T2Wins++;
-                battleReport.T2TotalRoundsToWin += turns;
-                battleReport.T2TotalHealthLostOnWIn += (team2.MaxHealth - team2.CurrentHealth);
-            }
             else if (_ruleset.IsDefeated(team2))
             {
-                battleReport.T1Wins++;
-                battleReport.T1TotalRoundsToWin += turns;
-                battleReport.T1TotalHealthLostOnWIn += (team1.MaxHealth - team1.CurrentHealth);
+                var remainingHealth = team1.MaxHealth - team1.CurrentHealth;
+                RecordWinData(isTeam1: true, turns, remainingHealth, battleReport);
+            }
+            else if (_ruleset.IsDefeated(team1))
+            {
+                var remainingHealth = team2.MaxHealth - team2.CurrentHealth;
+                RecordWinData(isTeam1: false, turns, remainingHealth, battleReport);
             }
         }
 

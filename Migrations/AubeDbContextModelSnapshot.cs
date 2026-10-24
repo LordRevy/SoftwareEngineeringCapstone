@@ -57,7 +57,7 @@ namespace AUBE.Migrations
                     b.Property<int>("T1TotalDodgedAttacks")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("T1TotalHealthLostOnWIn")
+                    b.Property<int>("T1TotalHealthLostOnWin")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("T1TotalHits")
@@ -94,7 +94,7 @@ namespace AUBE.Migrations
                     b.Property<int>("T2TotalDodgedAttacks")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("T2TotalHealthLostOnWIn")
+                    b.Property<int>("T2TotalHealthLostOnWin")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("T2TotalHits")

@@ -19,8 +19,8 @@ public class Report
     public int T2Wins                   { get; set; }                       // Amount of times Team 2 won.
     public int T2TotalRoundsToWin       { get; set; }                       // Total amount of rounds taken for Team 2 to win.
     public int Draws                    { get; set; }                       // Edge case if both Units lose on same round somehow.
-    public int T1TotalHealthLostOnWIn   { get; set; }                       // Total amount of health lost for Team 1 on a win.
-    public int T2TotalHealthLostOnWIn   { get; set; }                       // Total amount of health lose for Team 2 on a win.
+    public int T1TotalHealthLostOnWin   { get; set; }                       // Total amount of health lost for Team 1 on a win.
+    public int T2TotalHealthLostOnWin   { get; set; }                       // Total amount of health lose for Team 2 on a win.
     public int T1TotalAttacks           { get; set; }                       // Total attacks Team 1 made.
     public int T1TotalDodgedAttacks     { get; set; }                       // Total number of attacks dodged by Team 1.
     public int T2TotalAttacks           { get; set; }                       // Total attacks Team 2 made.

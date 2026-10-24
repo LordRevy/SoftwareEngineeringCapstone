@@ -46,6 +46,25 @@ public class BattleSimulatorTests
                 iterations));
     }
 
+    [Fact]
+    public void D6Ruleset_ZeroDodgeAndBlockChanceDoNotAutomaticallySucceed()
+    {
+        var ruleset = new D6Ruleset();
+        var attacker = CreateUnit(1, "Attacker", health: 3);
+        var defender = CreateUnit(2, "Defender", health: 3);
+
+        var attack = ruleset.ResolveAttack(attacker, defender);
+        var defense = ruleset.ResolveDefense(
+            attacker,
+            defender,
+            new AttackResult(NormalHits: 1));
+
+        Assert.Equal(0, attack.DodgedAttacks);
+        Assert.Equal(1, defense.DamageDealt);
+        Assert.Equal(0, defense.BlockedHits);
+        Assert.Equal(2, defender.CurrentHealth);
+    }
+
     // ===========================================================================================================
     //                                                                                               TEST HELPERS
     // ===========================================================================================================

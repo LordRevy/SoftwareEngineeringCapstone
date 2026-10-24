@@ -68,15 +68,16 @@ public class D6Ruleset : IRuleset
         if (remainingDamage <= 0)
             return HitResult.ArmorNegated;
 
-        var guard = Math.Min(6, defender.BlockChance + remainingDamage - 1);
-
-        if (!DiceHandler.RollDie(6, guard))
+        if (defender.BlockChance > 0)
         {
-            defender.CurrentHealth--;
-            return HitResult.WoundInflicted;
+            var guard = Math.Clamp(defender.BlockChance + remainingDamage - 1, 1, 6);
+
+            if (DiceHandler.RollDie(6, guard))
+                return HitResult.GuardBlocked;
         }
 
-        return HitResult.GuardBlocked;
+        defender.CurrentHealth--;
+        return HitResult.WoundInflicted;
     }
 
     // ===========================================================================================================
@@ -97,7 +98,9 @@ public class D6Ruleset : IRuleset
         var attacksPerWarrior = Math.Max(0, attacker.Weapon.NumberOfAttacks + attacker.Weapon.AttackModifier);
         var totalAttacks = attacksPerWarrior * attacker.CurrentHealth;
 
-        var (dodgedAttacks, _) = DiceHandler.RollDice(6, totalAttacks, defender.DodgeChance);
+        var (dodgedAttacks, _) = defender.DodgeChance > 0
+            ? DiceHandler.RollDice(6, totalAttacks, defender.DodgeChance)
+            : (0, 0);
         var remainingAttacks = totalAttacks - dodgedAttacks;
 
         var hitThreshold = Math.Clamp(attacker.AttackSkill - attacker.Weapon.HitModifier, 2, 6);
