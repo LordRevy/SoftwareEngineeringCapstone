@@ -43,9 +43,12 @@ public class IndexModel : PageModel
     }
 
     // ===========================================================================================================
-    //                                                                                            HELPER METHODS
+    //                                                                                          START SIMULATION
     // ===========================================================================================================
 
+    /// <summary>
+    /// Validates and preforms checks on selected Units before beginning simulation.
+    /// </summary>
     public async Task<IActionResult> OnPostAsync()
     {
         await LoadUnitsAsync();
@@ -56,15 +59,7 @@ public class IndexModel : PageModel
         if (!ModelState.IsValid)
             return Page();
 
-        var selectedIds = new[] { FirstUnitId, SecondUnitId };
-        var selectedUnits = await _dbContext.Units
-            .AsNoTracking()
-            .Include(unit => unit.Weapon)
-            .Where(unit => selectedIds.Contains(unit.Id))
-            .ToListAsync();
-
-        var first = selectedUnits.SingleOrDefault(unit => unit.Id == FirstUnitId);
-        var second = selectedUnits.SingleOrDefault(unit => unit.Id == SecondUnitId);
+        var (first, second) = await GetSelectedUnitsAsync();
 
         if (first is null || second is null || first.Ruleset != RulesetType.D6 || second.Ruleset != RulesetType.D6)
         {
@@ -72,12 +67,15 @@ public class IndexModel : PageModel
             return Page();
         }
 
-        Report = _simulator.RunSimulation(first, second, Iterations);
-        _dbContext.Reports.Add(Report);
-        await _dbContext.SaveChangesAsync();
+        await RunAndSaveSimulationAsync(first, second);
         await LoadRecentReportsAsync();
+
         return Page();
     }
+
+    // ===========================================================================================================
+    //                                                                                            HELPER METHODS
+    // ===========================================================================================================
 
     // ----------------------------------------------------------------------------------- LOAD UNITS
     /// <summary>
@@ -93,6 +91,10 @@ public class IndexModel : PageModel
             .ToListAsync();
     }
 
+    // ----------------------------------------------------------------------------------- LOAD REPORTS
+    /// <summary>
+    /// Gets the first 25 reports in the database.
+    /// </summary>
     private async Task LoadRecentReportsAsync()
     {
         RecentReports = await _dbContext.Reports
@@ -102,6 +104,42 @@ public class IndexModel : PageModel
             .ToListAsync();
     }
 
+    // ----------------------------------------------------------------------------------- GET SELECTED UNITS
+    /// <summary>
+    /// Gets the Selected Units from the Database and returns them.
+    /// </summary>
+    private async Task<(Unit? First, Unit? Second)> GetSelectedUnitsAsync()
+    {
+        var selectedIds = new[] { FirstUnitId, SecondUnitId };
+
+        var selectedUnits = await _dbContext.Units
+            .AsNoTracking()
+            .Include(unit => unit.Weapon)
+            .Where(unit => selectedIds.Contains(unit.Id))
+            .ToListAsync();
+
+        var first = selectedUnits.SingleOrDefault(unit => unit.Id == FirstUnitId);
+        var second = selectedUnits.SingleOrDefault(unit => unit.Id == SecondUnitId);
+
+        return (first, second);
+    }   
+
+    // -------------------------------------------------------------------------------- CREATE AND SAVE REPORT
+    /// <summary>
+    /// Gets the report data, and saves it as a report in the database.
+    /// </summary>
+    private async Task RunAndSaveSimulationAsync(Unit first, Unit second)
+    {
+        Report = _simulator.RunSimulation(first, second, Iterations);
+
+        _dbContext.Reports.Add(Report);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    // ----------------------------------------------------------------------------------- GET REPORT DETAILS
+    /// <summary>
+    /// Takes a report ID and gets the full list of details.
+    /// </summary>
     public async Task<PartialViewResult> OnGetReportDetailsAsync(int id)
     {
         var report = await _dbContext.Reports

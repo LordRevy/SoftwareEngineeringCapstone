@@ -12,6 +12,11 @@ public sealed class BattleSimulator
         _ruleset = ruleset;
     }
 
+    // ===========================================================================================================
+    //                                                                                            HELPER METHODS
+    // ===========================================================================================================
+
+    // --------------------------------------------------------------------------------- CREATE COMBATANT
     private static Unit CreateCombatant(Unit unit)
     {
         return new Unit
@@ -30,6 +35,8 @@ public sealed class BattleSimulator
             AbilityIds = [.. unit.AbilityIds]
         };
     }
+
+    // --------------------------------------------------------------------------------- RESOLVE COMBAT
     private AttackResult ResolveCombat(Unit attacker, Unit defender)
     {
         
@@ -57,9 +64,16 @@ public sealed class BattleSimulator
             );
     }
 
+    // ===========================================================================================================
+    //                                                                                           RUN SIMULATION
+    // ===========================================================================================================
+
     public Report RunSimulation(Unit firstUnit, Unit secondUnit, int iterations)
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(iterations);
+
+        if (firstUnit.Id == secondUnit.Id)
+            throw new ArgumentException("A unit cannot fight itself.");
 
         var battleReport = new Report{
             Id = 0,

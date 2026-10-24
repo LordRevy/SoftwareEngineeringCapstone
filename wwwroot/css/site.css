@@ -38,7 +38,7 @@ main { padding: 1.5rem 0 3rem; }
 .note, .combatant > p, .form-grid p { color: var(--muted); font-size: .9rem; }
 .notice { padding: .75rem; border-left: 4px solid var(--gold); background: #f8f1e5; }
 .text-success { color: var(--green); }
-.text-danger, .field-error, .form-error { color: var(--red); }
+.text-danger, .field-error, .form-error, .error-message { color: var(--red); }
 
 .form { display: grid; gap: 1rem; }
 .battle-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; }
@@ -47,7 +47,7 @@ main { padding: 1.5rem 0 3rem; }
 label { display: block; margin-bottom: .35rem; font-weight: 650; }
 input:not([type="hidden"]), select { width: 100%; min-height: 2.6rem; padding: .5rem .65rem; border: 1px solid #bdcdc2; border-radius: 4px; background: white; }
 input:focus, select:focus { outline: 2px solid #176b5733; border-color: var(--green); }
-.field-error, .form-error { display: block; font-size: .88rem; }
+.field-error, .form-error, .error-message { display: block; font-size: .88rem; }
 .field-validation-valid, .validation-summary-valid { display: none; }
 .form > .card, .report-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .button-row { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }

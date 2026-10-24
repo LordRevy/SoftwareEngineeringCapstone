@@ -12,7 +12,6 @@
     var filteredWeapons = Model.Weapons.Where(weapon => weapon.Ruleset == Model.SelectedRuleset).ToList();
 }
 
-
 <!--                                                                                          PAGE INTRO -->
 <div class="card">
     <h1>Database Check</h1>
@@ -177,6 +176,13 @@
         <button type="button" id="addWeaponButton" class="button-good">+ Add Weapon</button>
         <button type="button" id="updateWeaponButton" class="button">Edit Weapon</button>
         <button type="button" id="deleteWeaponButton" class="button-bad">Delete Weapon</button>
+        
+        @if (TempData["ErrorMessage"] is string errorMessage)
+        {
+            <div class="error-message" role="alert">
+                <h3>@errorMessage </h3>
+            </div>
+        }
     </div>
 
 </section>

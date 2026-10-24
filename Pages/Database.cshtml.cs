@@ -405,12 +405,26 @@ public class DatabaseModel : PageModel
             return BadRequest();
 
         var weapon = await _dbContext.Weapons.FindAsync(SelectedWeaponId);
-
+        
         if (weapon is null)
             return NotFound();
 
-        _dbContext.Weapons.Remove(weapon);
-        await _dbContext.SaveChangesAsync();
+        var conflicts = await _dbContext.Units
+            .Where(unit => unit.Weapon.Id == weapon.Id)
+            .Select(unit => unit.Name)
+            .ToListAsync();
+        
+        if (conflicts.Count > 0)
+        {
+            TempData["ErrorMessage"] =
+            $"Cannot delete this weapon while these units use it: " +
+            $"{string.Join(", ", conflicts)}";
+        }
+        else
+        {
+            _dbContext.Weapons.Remove(weapon);
+            await _dbContext.SaveChangesAsync();
+        }
 
         return RedirectToPage(new { SelectedRuleset });
     }
