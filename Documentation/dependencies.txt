@@ -1,4 +1,0 @@
-VS Code
-dotnet-SDK
-Microsoft.EntityFrameworkCore.Sqlite
-Microsoft.EntityFrameworkCore.Design

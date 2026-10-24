@@ -1,6 +1,5 @@
 using AUBE.Data;
 using AUBE.Mechanics;
-using AUBE.TestScripts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +33,12 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
-TestDatabase.Run(app.Services);
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AubeDbContext>();
+    await DatabaseInitializer.InitializeAsync(
+        dbContext,
+        seedDemoData: app.Environment.IsDevelopment());
+}
 
 app.Run();
