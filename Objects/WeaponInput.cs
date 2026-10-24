@@ -9,15 +9,15 @@ public sealed class AddWeaponInput
     [Required]
     public string Name { get; set; } = string.Empty;
 
-    [Range(int.MinValue, int.MaxValue)]
+    [Range(0, 100)]
     public int Damage { get; set; } = 1;
 
-    [Range(int.MinValue, int.MaxValue)]
+    [Range(0, 100)]
     public int NumberOfAttacks { get; set; } = 1;
 
-    [Range(int.MinValue, int.MaxValue)]
+    [Range(-100, 100)]
     public int AttackModifier { get; set; } = 0;
     
-    [Range(int.MinValue, int.MaxValue)]
+    [Range(-100, 100)]
     public int HitModifier { get; set; } = 0;
 }

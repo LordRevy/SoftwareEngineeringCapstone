@@ -47,6 +47,7 @@
             <input asp-for="WeaponInput.Damage"
                     type="number"
                     min="0"
+                    max="100"
                     />
             <span asp-validation-for="WeaponInput.Damage" class="field-error"></span>
         </div>
@@ -57,6 +58,7 @@
             <input asp-for="WeaponInput.NumberOfAttacks"
                     type="number"
                     min="0"
+                    max="100"
                     />
             <span asp-validation-for="WeaponInput.NumberOfAttacks" class="field-error"></span>
         </div>
@@ -66,6 +68,8 @@
             <p>@Model.RuleExplanations.GetValueOrDefault("AttackModifier")</p>
             <input asp-for="WeaponInput.AttackModifier"
                     type="number"
+                    min="-100"
+                    max="100"
                     />
             <span asp-validation-for="WeaponInput.AttackModifier" class="field-error"></span>
         </div>
@@ -75,6 +79,8 @@
             <p>@Model.RuleExplanations.GetValueOrDefault("HitModifier")</p>
             <input asp-for="WeaponInput.HitModifier"
                     type="number"
+                    min="-100"
+                    max="100"
                     />
             <span asp-validation-for="WeaponInput.HitModifier" class="field-error"></span>
         </div>

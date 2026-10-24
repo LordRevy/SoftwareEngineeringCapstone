@@ -12,23 +12,24 @@ public sealed class AddUnitInput
     [Required]
     public string Type { get; set; } = string.Empty;
 
-    [Range(int.MinValue, int.MaxValue)]
+    [Range(1, 10000)]
     public int Health { get; set; } = 1;
 
-    [Range(int.MinValue, int.MaxValue)]
+    [Range(1, 10000)]
     public int WeaponId { get; set; }
 
-    [Range(int.MinValue, int.MaxValue)]
+    [Range(0, 100)]
     public int Armor { get; set; } = 0;
 
-    [Range(int.MinValue, int.MaxValue)]
+    [Range(0, 100)]
     public int AttackSkill { get; set; } = 1;
 
-    [Range(int.MinValue, int.MaxValue)]
+    [Range(0, 100)]
     public int DodgeChance { get; set; } = 0;
 
-    [Range(int.MinValue, int.MaxValue)]
+    [Range(0, 100)]
     public int BlockChance { get; set; } = 0;
 
+    [StringLength(50)]
     public string? AbilityIds { get; set; }
 }

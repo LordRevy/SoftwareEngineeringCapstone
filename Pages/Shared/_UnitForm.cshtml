@@ -33,6 +33,7 @@
             <input asp-for="UnitInput.Health"
                     type="number"
                     min="1"
+                    max="10000"
                     />
             <span asp-validation-for="UnitInput.Health" class="field-error"></span>
         </div>
@@ -59,6 +60,7 @@
             <input asp-for="UnitInput.Armor"
                     type="number"
                     min="0"
+                    max="100"
                     />
             <span asp-validation-for="UnitInput.Armor" class="field-error"></span>
         </div>
@@ -69,6 +71,7 @@
             <input asp-for="UnitInput.AttackSkill"
                     type="number"
                     min="0"
+                    max="100"
                     />
             <span asp-validation-for="UnitInput.AttackSkill" class="field-error"></span>
         </div>
@@ -102,7 +105,7 @@
                 Ability IDs (comma-separated)
             </label>
             <p>@Model.RuleExplanations.GetValueOrDefault("AbilityIds")</p>
-            <input asp-for="UnitInput.AbilityIds" />
+            <input asp-for="UnitInput.AbilityIds" maxlength="50" />
         </div>
 
     </div>

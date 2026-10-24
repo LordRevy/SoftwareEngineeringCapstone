@@ -50,8 +50,8 @@ public class BattleSimulatorTests
     public void RunSimulation_RejectsNonPositiveIterationCounts(int iterations)
     {
         _output.WriteLine(
-            "==================="+
-            "   Iteration Test" +
+            "===================\n"+
+            "   Iteration Test\n" +
             "===================");
         var simulator = new BattleSimulator(new AlwaysDefeatsOnHitRuleset());
 
