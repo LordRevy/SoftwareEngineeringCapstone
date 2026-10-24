@@ -28,6 +28,9 @@ h3 { font-size: 1.05rem; }
 .topbar ul { margin: 0; padding: 0; list-style: none; }
 .topbar li a { display: block; padding: .4rem .65rem; color: #dce9e1; }
 .topbar li a:hover { color: white; text-decoration: none; }
+.topbar .navbar-nav { gap: .25rem; }
+.topbar .nav-logout { padding: .4rem .65rem; border: 0; border-radius: 0; background: transparent; color: #dce9e1; cursor: pointer; }
+.topbar .nav-logout:hover { color: white; text-decoration: underline; filter: none; }
 main { padding: 1.5rem 0 3rem; }
 
 .card, .combatant, .report, .report-result { padding: 1rem; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); }

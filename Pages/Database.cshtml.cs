@@ -4,9 +4,11 @@ using AUBE.Mechanics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AUBE.Pages;
 
+[Authorize]
 public class DatabaseModel : PageModel
 {
     // ===========================================================================================================

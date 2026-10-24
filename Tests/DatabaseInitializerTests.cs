@@ -2,11 +2,19 @@ using AUBE.Data;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace AUBE.Tests;
 
 public class DatabaseInitializerTests
 {
+    private readonly ITestOutputHelper _output;
+
+    public DatabaseInitializerTests(ITestOutputHelper output)
+    {
+        _output = output;
+    }
+
     // ===========================================================================================================
     //                                                                                      DEVELOPMENT DATABASE
     // ===========================================================================================================
@@ -15,6 +23,10 @@ public class DatabaseInitializerTests
     [Fact]
     public async Task InitializeAsync_MigratesAndSeedsDevelopmentDatabaseOnce()
     {
+        _output.WriteLine(
+            "======================================\n"+
+            "Migrate & Seed Developmental Database\n" +
+            "======================================");
         await using var connection = new SqliteConnection("Data Source=:memory:");
         await connection.OpenAsync();
         var options = new DbContextOptionsBuilder<AubeDbContext>()
@@ -39,6 +51,10 @@ public class DatabaseInitializerTests
     [Fact]
     public async Task InitializeAsync_LeavesProductionDatabaseWithoutDemoRows()
     {
+        _output.WriteLine(
+            "======================================\n"+
+            "    Migrate Production Database\n" +
+            "======================================");
         await using var connection = new SqliteConnection("Data Source=:memory:");
         await connection.OpenAsync();
         var options = new DbContextOptionsBuilder<AubeDbContext>()

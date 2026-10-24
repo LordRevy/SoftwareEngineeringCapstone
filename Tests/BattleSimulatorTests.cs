@@ -1,11 +1,19 @@
 using AUBE.Mechanics;
 using AUBE.Objects;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace AUBE.Tests;
 
 public class BattleSimulatorTests
 {
+    private readonly ITestOutputHelper _output;
+
+    public BattleSimulatorTests(ITestOutputHelper output)
+    {
+        _output = output;
+    }
+
     // ===========================================================================================================
     //                                                                                               SIMULATIONS
     // ===========================================================================================================
@@ -14,7 +22,11 @@ public class BattleSimulatorTests
     [Fact]
     public void RunSimulation_RecordsWinsAndDoesNotChangeSavedUnits()
     {
-        // Use fixed combat outcomes so this test does not depend on random dice rolls.
+        _output.WriteLine(
+            "======================================\n"+
+            "Record Wins And Ensure Unit Integrity\n" +
+            "======================================");
+        // Uses fixed combat outcomes so this test does not depend on random dice rolls.
         var ruleset = new AlwaysDefeatsOnHitRuleset();
         var simulator = new BattleSimulator(ruleset);
         var first = CreateUnit(1, "First", health: 3);
@@ -37,6 +49,10 @@ public class BattleSimulatorTests
     [InlineData(-1)]
     public void RunSimulation_RejectsNonPositiveIterationCounts(int iterations)
     {
+        _output.WriteLine(
+            "==================="+
+            "   Iteration Test" +
+            "===================");
         var simulator = new BattleSimulator(new AlwaysDefeatsOnHitRuleset());
 
         Assert.Throws<ArgumentOutOfRangeException>(() =>
@@ -49,6 +65,10 @@ public class BattleSimulatorTests
     [Fact]
     public void D6Ruleset_ZeroDodgeAndBlockChanceDoNotAutomaticallySucceed()
     {
+        _output.WriteLine(
+            "================================================\n"+
+            "Dodge and Block of 0 Dont Automatically Succeed\n" +
+            "================================================");
         var ruleset = new D6Ruleset();
         var attacker = CreateUnit(1, "Attacker", health: 3);
         var defender = CreateUnit(2, "Defender", health: 3);
