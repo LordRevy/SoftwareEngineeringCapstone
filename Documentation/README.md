@@ -12,7 +12,7 @@ Users can manage units and weapons, run D6 melee matchups for up to 10,000 itera
 - **Hosted application:** Add the deployment URL if the app is hosted.
 - **ERD:** [View the database diagram](Screenshots/AUBE_ERD.png)
 - **UML class diagram:** [View the UML diagram](Screenshots/UML.png)
-- **Test results screenshot:** Add the screenshot path when available.
+- **Test results screenshot:** [View the Tests](Screenshots/SuccessfulTests_Full.png)
 
 ## Setup and Installation
 
