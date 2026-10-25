@@ -7,7 +7,6 @@ Simulation tests use test objects and a deterministic ruleset where needed. Data
 
 ## Testing Results
 Latest run: 7 tests passed and 0 failed with `dotnet test Tests/AUBE.Tests.csproj`. No code changes were needed in response to this run. [Test Results](Screenshots/SuccessfulTests_Full.png)
- test plan for a unit test, including screenshots
 
 ## Changes Made
 During the `RecordsWinsAndDoesNotChangeSavedUnits` Test, an error was identified where some units would win every encounter. Further investigation revealed that a value of 0 for DodgeSkill and/or BlockSkill resulted in a automatic pass for every check. This error would certainly make the software unreliable and was fixed immediately. For good measure, `D6Ruleset_ZeroDodgeAndBlockChanceDoNotAutomaticallySucceed` was created to monitor and validate the issue if future changes ever trigger this again.
@@ -19,6 +18,6 @@ dotnet test Tests/AUBE.Tests.csproj
 ```
 
 Detailed Test
-```
+```sh
 dotnet test Tests/AUBE.Tests.csproj --logger "console;verbosity=detailed"
 ```
