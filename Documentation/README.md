@@ -10,8 +10,8 @@ Users can manage units and weapons, run D6 melee matchups for up to 10,000 itera
 - **GitLab repository:** [AUBE](https://gitlab.com/wgu-gitlab-environment/student-repos/tboyc27/d424-software-engineering-capstone/-/tree/working)
 - **Submitted version:** Add the submitted commit hash or release tag.
 - **Hosted application:** Add the deployment URL if the app is hosted.
-- **ERD:** [View the database diagram](AUBE_ERD.png)
-- **UML class diagram:** [View the UML diagram](UML.png)
+- **ERD:** [View the database diagram](Screenshots/AUBE_ERD.png)
+- **UML class diagram:** [View the UML diagram](Screenshots/UML.png)
 - **Test results screenshot:** Add the screenshot path when available.
 
 ## Setup and Installation
@@ -47,19 +47,7 @@ Choose a ruleset, then add weapons and units. A unit must reference a weapon in 
 
 ## Testing
 
-### Unit Tests
-Tests are in the `Tests` folder and use xUnit. They verify simulation results and iteration validation, D6 dodge/block behavior, database initialization and seeding, and authorization on the Database page.
-
-### Running Tests
-
-```sh
-dotnet test Tests/AUBE.Tests.csproj
-```
-
-Simulation tests use test objects and a deterministic ruleset where needed. Database initialization tests use a temporary in-memory SQLite database, so the application's normal database is not modified.
-
-### Testing Evidence
-Latest run: 7 tests passed and 0 failed with `dotnet test Tests/AUBE.Tests.csproj`. No code changes were needed in response to this run. *Add a screenshot of the test output here: `path/to/test-results-screenshot.png`.*
+See the `TestPlan.md` for a detailed breakdown of the tests preformed.
 
 ## Developer's Guide
 
@@ -75,7 +63,7 @@ Latest run: 7 tests passed and 0 failed with `dotnet test Tests/AUBE.Tests.cspro
 The app uses ASP.NET Core Razor Pages, Entity Framework Core with SQLite, and ASP.NET Core Identity. `BattleSimulator` runs battles through the `IRuleset` interface; `D6Ruleset` currently provides the combat rules. This interface allows combat behavior to be supplied by other rulesets. Page models handle requests and use the database context for data access.
 
 ### Database Design
-See the [ERD](AUBE_ERD.png). Units reference a weapon. Simulation reports store matchup names and unit IDs with aggregate results; the report IDs are stored as values rather than foreign-key relationships. This was done intentionally so records arent modified if Units are edited or deleted.
+See the [ERD](Screenshots/AUBE_ERD.png). Units reference a weapon. Simulation reports store matchup names and unit IDs with aggregate results; the report IDs are stored as values rather than foreign-key relationships. This was done intentionally so records arent modified if Units are edited or deleted.
 
 ### Extending AUBE
 To change the database schema, update the relevant entity or context, add an EF Core migration, and verify the app starts and the tests pass.
