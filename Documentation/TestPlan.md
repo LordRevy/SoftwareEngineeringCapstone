@@ -17,7 +17,7 @@ Basic Test
 dotnet test Tests/AUBE.Tests.csproj
 ```
 
-Detailed Test
+## Detailed Test
 ```sh
 dotnet test Tests/AUBE.Tests.csproj --logger "console;verbosity=detailed"
 ```

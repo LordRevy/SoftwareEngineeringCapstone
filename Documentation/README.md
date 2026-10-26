@@ -8,7 +8,7 @@ Users can manage units and weapons, run D6 melee matchups for up to 10,000 itera
 ## Project Links and Documentation
 
 - **GitLab repository:** [AUBE](https://gitlab.com/wgu-gitlab-environment/student-repos/tboyc27/d424-software-engineering-capstone/-/tree/working)
-- **Hosted application:** Add the deployment URL if the app is hosted.
+- **Hosted application:** [View the database diagram](https://aube.onrender.com)
 - **ERD:** [View the database diagram](Screenshots/AUBE_ERD.png)
 - **UML class diagram:** [View the UML diagram](Screenshots/UML.png)
 - **Test results screenshot:** [View the Tests](Screenshots/SuccessfulTests_Full.png)
@@ -37,11 +37,13 @@ Open the URL printed by the application. With the included Development launch pr
 ### Sign In
 
 Register an account or sign in using the links in the navigation. Sign-in is required to access the Database page.
+*The Sign in is for demonstratiion purposes, you can make up a gmail and password if you are not comfortable sharing a personal one.*
+Example: Email: AUBEtest@gmail.com | Password: AUBEtest1234!
 
 ### Home Page and Simulations
-Select two different D6 units, choose 1 to 10,000 iterations, and run the simulation. The report summarizes wins, win rates, damage, draws, and rounds. Recent reports are listed below; search by unit name and select a report to view its details.
+Select two different D6 units, choose 1 to 10,000 iterations, and run the simulation. The report summarizes wins, win rates, damage, draws, and rounds. Recent reports are listed below; search by unit name and select a report to view its details. If the database had just been initialized, there will likely be no data in it. You will have to head to the Database page first to add some Units and Weapons.
 
-### Database Management
+### Database Page
 Choose a ruleset, then add weapons and units. A unit must reference a weapon in the same ruleset. Select an existing row to edit or delete it. The page is available to signed-in users.
 
 ## Testing
