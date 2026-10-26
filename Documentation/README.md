@@ -7,8 +7,8 @@ Users can manage units and weapons, run D6 melee matchups for up to 10,000 itera
 
 ## Project Links and Documentation
 
-- **GitLab repository:** [AUBE](https://gitlab.com/wgu-gitlab-environment/student-repos/tboyc27/d424-software-engineering-capstone/-/tree/working)
-- **Hosted application:** [View the database diagram](https://aube.onrender.com)
+- **GitLab repository:** [AUBE REPO](https://gitlab.com/wgu-gitlab-environment/student-repos/tboyc27/d424-software-engineering-capstone/-/tree/working)
+- **Hosted application:** [AUBE APP](https://aube.onrender.com)
 - **ERD:** [View the database diagram](Screenshots/AUBE_ERD.png)
 - **UML class diagram:** [View the UML diagram](Screenshots/UML.png)
 - **Test results screenshot:** [View the Tests](Screenshots/SuccessfulTests_Full.png)
